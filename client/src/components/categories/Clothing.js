@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Clothing.css";
-import MainNavbar from '../comman/MainNavbar.js';
+import MainNavbar from "../comman/MainNavbar.js";
+import api from "../../api";
 
 // import { Whishlist } from "../comman/MainNavbar.js";
 import { RiShoppingBag2Line } from "react-icons/ri";
@@ -34,28 +35,28 @@ const ProductCard = ({ product }) => {
           <span className="new-arrival-stock-badge">Low Stock</span>
         )}
         <div className="new-arrival-product-icons-clothing">
-          <button className="new-arrival-icon-btn-clothing" >
+          <button className="new-arrival-icon-btn-clothing">
             <RiShoppingBag2Line />
           </button>
           {/* Add to Wishlist */}
-          <button
-            className="new-arrival-icon-btn-clothing"
-
-            type="button"
-          >
+          <button className="new-arrival-icon-btn-clothing" type="button">
             <FaRegHeart />
           </button>
-          <button className="new-arrival-icon-btn-clothing new-arrival-icon-hide-clothing" >
+          <button className="new-arrival-icon-btn-clothing new-arrival-icon-hide-clothing">
             <TbArrowsCross />
           </button>
-          <button className="new-arrival-icon-btn-clothing" >
+          <button className="new-arrival-icon-btn-clothing">
             <IoEyeOutline />
           </button>
         </div>
         {variant.sizes && (
           <div className="new-arrival-product-size-overlay-clothing d-flex justify-content-center gap-2">
-            {variant.sizes.map(size => (
-              <span key={size.size} className="text-white d-flex justify-content-center align-items-center" style={{ width: "30px" }}>
+            {variant.sizes.map((size) => (
+              <span
+                key={size.size}
+                className="text-white d-flex justify-content-center align-items-center"
+                style={{ width: "30px" }}
+              >
                 {size.size}
               </span>
             ))}
@@ -63,25 +64,20 @@ const ProductCard = ({ product }) => {
         )}
       </div>
 
-
       <div className="new-arrival-product-info">
         <h3 className="new-arrival-product-name">{product.name}</h3>
         {/* <p className="product-category">{product.category}</p> */}
         <div className="new-arrival-product-details">
           <p className="new-arrival-product-price">
-
-            {variant.sizes.length > 1 && "$" + variant.sizes[variant.sizes.length - 1].price.toFixed(2)}
+            {variant.sizes.length > 1 &&
+              "$" + variant.sizes[variant.sizes.length - 1].price.toFixed(2)}
           </p>
         </div>
 
         <div className="new-arrival-color-options">
           {uniqueColors.map((color, index) => (
             <label key={index} className="new-arrival-color-radio">
-              <input
-                type="radio"
-                name={`color-${product._id}`}
-                value={color}
-              />
+              <input type="radio" name={`color-${product._id}`} value={color} />
               <span
                 className="new-arrival-color-box"
                 style={{ "--color": color }}
@@ -102,8 +98,8 @@ const Clothing = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/products');
-        const data = await response.json();
+        const response = await api.get("/products");
+        const data = response.data;
         console.log("API Response:", data);
         setProducts(data);
       } catch (error) {
@@ -126,13 +122,13 @@ const Clothing = () => {
     const sortedProducts = [...products];
     switch (option) {
       case "price-low":
-        sortedProducts.sort((a, b) =>
-          a.variants[0].sizes[0].price - b.variants[0].sizes[0].price
+        sortedProducts.sort(
+          (a, b) => a.variants[0].sizes[0].price - b.variants[0].sizes[0].price
         );
         break;
       case "price-high":
-        sortedProducts.sort((a, b) =>
-          b.variants[0].sizes[0].price - a.variants[0].sizes[0].price
+        sortedProducts.sort(
+          (a, b) => b.variants[0].sizes[0].price - a.variants[0].sizes[0].price
         );
         break;
       // Add more sorting options as needed
@@ -162,17 +158,53 @@ const Clothing = () => {
 
           <div className="new-arrival-grid-options">
             <button
-              className={`new-arrival-grid-btn ${gridOption === 1 ? "active" : ""}`}
+              className={`new-arrival-grid-btn ${
+                gridOption === 1 ? "active" : ""
+              }`}
               onClick={() => handleGridChange(1)}
             >
               <div className="new-arrival-dot-column">
-                <svg width="24" height="6" viewBox="0 0 24 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="2.4375" cy="2.4375" r="2.4375" fill="currentColor"></circle>
-                  <rect x="7" y="2" width="12" height="1" fill="currentColor"></rect>
+                <svg
+                  width="24"
+                  height="6"
+                  viewBox="0 0 24 6"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="2.4375"
+                    cy="2.4375"
+                    r="2.4375"
+                    fill="currentColor"
+                  ></circle>
+                  <rect
+                    x="7"
+                    y="2"
+                    width="12"
+                    height="1"
+                    fill="currentColor"
+                  ></rect>
                 </svg>
-                <svg width="24" height="6" viewBox="0 0 24 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="2.4375" cy="2.4375" r="2.4375" fill="currentColor"></circle>
-                  <rect x="7" y="2" width="12" height="1" fill="currentColor"></rect>
+                <svg
+                  width="24"
+                  height="6"
+                  viewBox="0 0 24 6"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="2.4375"
+                    cy="2.4375"
+                    r="2.4375"
+                    fill="currentColor"
+                  ></circle>
+                  <rect
+                    x="7"
+                    y="2"
+                    width="12"
+                    height="1"
+                    fill="currentColor"
+                  ></rect>
                 </svg>
               </div>
             </button>
@@ -180,20 +212,44 @@ const Clothing = () => {
             {[2, 3, 4, 5, 6].map((option) => (
               <button
                 key={option}
-                className={`new-arrival-grid-btn ${gridOption === option ? "active" : ""}`}
+                className={`new-arrival-grid-btn ${
+                  gridOption === option ? "active" : ""
+                }`}
                 onClick={() => handleGridChange(option)}
               >
                 <div className="new-arrival-dot-pair">
-                  {Array(option).fill().map((_, index) => (
-                    <div key={index} className="new-arrival-dot-column">
-                      <svg width="5" height="5" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="2.4375" cy="2.4375" r="2.4375" fill="currentColor"></circle>
-                      </svg>
-                      <svg width="5" height="5" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="2.4375" cy="2.4375" r="2.4375" fill="currentColor"></circle>
-                      </svg>
-                    </div>
-                  ))}
+                  {Array(option)
+                    .fill()
+                    .map((_, index) => (
+                      <div key={index} className="new-arrival-dot-column">
+                        <svg
+                          width="5"
+                          height="5"
+                          viewBox="0 0 5 5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="2.4375"
+                            cy="2.4375"
+                            r="2.4375"
+                            fill="currentColor"
+                          ></circle>
+                        </svg>
+                        <svg
+                          width="5"
+                          height="5"
+                          viewBox="0 0 5 5"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="2.4375"
+                            cy="2.4375"
+                            r="2.4375"
+                            fill="currentColor"
+                          ></circle>
+                        </svg>
+                      </div>
+                    ))}
                 </div>
               </button>
             ))}
@@ -211,7 +267,9 @@ const Clothing = () => {
           </select>
         </div>
 
-        <div className={`new-arrival-products-grid new-arrival-grid-${gridOption}`}>
+        <div
+          className={`new-arrival-products-grid new-arrival-grid-${gridOption}`}
+        >
           {products.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}

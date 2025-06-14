@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/shopthelook.css";
 import Sidebar from "./Sidebar.js";
-import { FaImage } from 'react-icons/fa';
-import api from '../../api.js';
-import {toast , Toaster} from 'react-hot-toast';
-
-const BaseUrl = "http://localhost:5000";
+import { FaImage } from "react-icons/fa";
+import api from "../../api.js";
+import { toast, Toaster } from "react-hot-toast";
 
 const ShopTheLook = () => {
   const [dots, setDots] = useState({
@@ -35,10 +33,10 @@ const ShopTheLook = () => {
 
         setImages({
           image1: data.images.image1?.imagePath
-            ? `${BaseUrl}${data.images.image1.imagePath}`
+            ? `${api.defaults.baseURL}${data.images.image1.imagePath}`
             : "",
           image2: data.images.image2?.imagePath
-            ? `${BaseUrl}${data.images.image2.imagePath}`
+            ? `${api.defaults.baseURL}${data.images.image2.imagePath}`
             : "",
         });
         // toast.dismiss(); // Dismiss loading toast
@@ -54,8 +52,6 @@ const ShopTheLook = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-
 
   const handleImageClick = (e, imageId) => {
     const rect = e.target.getBoundingClientRect();
@@ -118,24 +114,26 @@ const ShopTheLook = () => {
     formData.append("dots2", JSON.stringify(dots.image2));
 
     try {
-      const response = await api.put("/api/admin/update_shopthelook", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await api.put(
+        "/api/admin/update_shopthelook",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       console.log("Save Response:", response.data);
       // alert("Changes saved successfully!");
-      toast.success("Changes saved successfully")
+      toast.success("Changes saved successfully");
 
       // Re-fetch data to ensure the UI reflects the latest state
       await fetchData();
     } catch (err) {
       console.error("Error saving data:", err.response?.data || err.message);
       // alert("Failed to save data");
-      toast.error("Failed to save data")
+      toast.error("Failed to save data");
     }
   };
-
-
 
   // if (loading) return <div>Loading...</div>;
 
@@ -195,7 +193,6 @@ const ShopTheLook = () => {
                 </span>
               </div>
             ))}
-
           </div>
           <div className="admin-shoplook-image-wrapper">
             <img

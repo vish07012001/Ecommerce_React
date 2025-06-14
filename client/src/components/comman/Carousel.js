@@ -20,11 +20,11 @@ const YellowBanner = () => {
   useEffect(() => {
     const fetchBannerData = async () => {
       try {
-        const response = await api.get('/api/users/get_taglines');
+        const response = await api.get("/api/users/get_taglines");
         setBannerData(response.data); // Assume response.data is an array
       } catch (err) {
         console.error(err);
-        setError('Failed to fetch banner data.');
+        setError("Failed to fetch banner data.");
       }
     };
 
@@ -41,8 +41,8 @@ const YellowBanner = () => {
             <p key={index}>
               <span>
                 <BsFillLightningChargeFill />
-              </span>{' '}
-              {item.text}{' '}
+              </span>{" "}
+              {item.text}{" "}
             </p>
           ))}
         </div>
@@ -60,12 +60,12 @@ function Carousel_item() {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await api.get('/banners/');
-        const activeBanners = response.data.filter(banner => banner.active); // Only show active banners
+        const response = await api.get("/banners/");
+        const activeBanners = response.data.filter((banner) => banner.active); // Only show active banners
         setBanners(activeBanners);
       } catch (err) {
         console.error(err);
-        setError('Failed to fetch banners.');
+        setError("Failed to fetch banners.");
       }
     };
 
@@ -90,7 +90,11 @@ function Carousel_item() {
           {banners.map((banner, index) => (
             <SwiperSlide key={index}>
               <div className="slide-container">
-                <img src={`http://localhost:5000${banner.image}`} alt={`Banner ${index + 1}`} className="slide-image" />
+                <img
+                  src={`${api.defaults.baseURL}${banner.image}`}
+                  alt={`Banner ${index + 1}`}
+                  className="slide-image"
+                />
                 <div className="slide-content">
                   <h5>{banner.caption}</h5>
                   <p>{banner.text}</p>
